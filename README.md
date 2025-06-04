@@ -1,47 +1,44 @@
-# Air Quality Index (AQI) Prediction Using Random Forest
+# Air Quality Forecasting & Alert System
 
-This repository implements a machine learning model for predicting the **Air Quality Index (AQI)** using environmental sensor data. 
+This repository contains the capstone project by **Isabel Prempeh** and **Kofi Adu-Labi**, focused on building a data-driven air quality forecasting and alert system. The project includes a machine learning model to predict AQI (Air Quality Index) values, a user-friendly mobile app to alert users about air quality conditions, and a supporting dataset and presentation.
 
----
 
-## 📊 Project Overview
+## 🚀 Features
 
-This project demonstrates how a **Random Forest Regressor** can be used to model the AQI based on key features like:
+- **Machine Learning Model:** Predicts AQI levels using historical data.
+- **Mobile Application:** Android-based app built for real-time air quality alerts.
+- **Dataset:** Clean and well-structured CSV dataset of AQI data.
+- **End-to-End Pipeline:** From data ingestion and preprocessing to model training, evaluation, and deployment.
 
-- **PM2.5** (Particulate Matter)
-- **CO₂** (Carbon Dioxide)
-- **VOCs** (Volatile Organic Compounds)
-- **Temperature**
-- **Humidity**
+## 🧠 Technologies Used
 
-A dataset of 5,000 entries is used to simulate real-world data collected at 5-second intervals.
+- Python, Pandas, Scikit-learn
+- Jupyter Notebook
+- Android Studio / Java (for the mobile app)
+- PowerPoint (for presentation)
+- Video editing tools for demo
 
----
+## 📊 Dataset
 
-## 📁 Repository Contents
+The `aqi_dataset.csv` contains historical air quality data used for training and testing the forecasting model.
 
-- `aqi_model.py` – Main script that loads the dataset, trains the model, and visualizes predictions.
-- `aqi_dataset.csv` – Simulated dataset (5000 samples, 5 features + AQI).
-- `aqi_dataset.xlsx` – Same dataset in Excel format.
-- `aqi_prediction_plot.png` – Visualization of model predictions.
-- `requirements.txt` – Python dependencies.
-- `README.md` – Project documentation.
+## 📱 Android App
 
----
+The app (`app-release.apk`) allows users to receive air quality warnings and view forecasts. It's designed to be lightweight and user-friendly.
 
-## 📈 Model Performance
+## 🎥 Demo
 
-The model achieves:
+Watch the [Demo.mp4](./Demo/Demo.mp4) for a walk-through of the app and model performance.
 
-- **R² Score**: ~0.98  
-- **Mean Squared Error**: ~104.64
+## 📄 Report & Presentation
 
-These metrics indicate the model can explain over 98% of the variance in AQI values based on the given features.
+For detailed methodology, results, and conclusions, refer to:
+- 📘 `Report/IsabelPrempehCapstone_KofiAdu-Labi.pdf`
+- 📊 `Presentation/CapstonePresentation_IsabelPrempeh_KofiAdu-Labi.pptx`
 
----
+## 🧪 How to Run the Model
 
-## 🛠️ How to Run
-
-1. **Install the required packages**:
+1. Open `CapstoneCode.ipynb` in Jupyter Notebook.
+2. Install dependencies:  
    ```bash
-   pip install -r requirements.txt
+   pip install pandas scikit-learn matplotlib
