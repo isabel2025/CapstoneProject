@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ESP32 Sensor Dashboard</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin: 0; padding: 24px; }
+    table { border-collapse: collapse; width: min(900px, 95%); margin: 20px auto; }
+    th, td { border: 1px solid #ccc; padding: 10px; }
+    canvas { width: min(1000px, 95%) !important; margin: 24px auto; }
+  </style>
+</head>
+<body>
+  <h1>ESP32 Sensor Readings</h1>
+
+  <table>
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Temperature (°C)</th>
+        <th>Humidity (%)</th>
+        <th>Timestamp</th>
+      </tr>
+    </thead>
+    <tbody id="data-body"></tbody>
+  </table>
+
+  <canvas id="chartCanvas"></canvas>
+
+  <script>
+    const ctx = document.getElementById('chartCanvas').getContext('2d');
+    let chart;
+
+    async function fetchDataAndUpdate() {
+      const response = await fetch('../../backend/prototype/view_data.php');
+      const data = await response.json();
+
+      document.getElementById('data-body').innerHTML = data.map(row => `
+        <tr>
+          <td>${row.id}</td>
+          <td>${row.temperature}</td>
+          <td>${row.humidity}</td>
+          <td>${row.timestamp}</td>
+        </tr>`).join('');
+
+      const labels = data.map(r => new Date(r.timestamp).toLocaleTimeString());
+      const temps = data.map(r => Number(r.temperature));
+      const hums = data.map(r => Number(r.humidity));
+
+      if (!chart) {
+        chart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels,
+            datasets: [
+              { label: 'Temperature (°C)', data: temps, borderWidth: 2, fill: false, tension: 0.3 },
+              { label: 'Humidity (%)', data: hums, borderWidth: 2, fill: false, tension: 0.3 }
+            ]
+          },
+          options: { responsive: true }
+        });
+      } else {
+        chart.data.labels = labels;
+        chart.data.datasets[0].data = temps;
+        chart.data.datasets[1].data = hums;
+        chart.update();
+      }
+    }
+
+    setInterval(fetchDataAndUpdate, 5000);
+    window.addEventListener('load', fetchDataAndUpdate);
+  </script>
+</body>
+</html>
