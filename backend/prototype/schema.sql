@@ -1,0 +1,9 @@
+CREATE DATABASE IF NOT EXISTS esp_data;
+USE esp_data;
+
+CREATE TABLE IF NOT EXISTS sensor_readings (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  temperature FLOAT,
+  humidity FLOAT,
+  timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
