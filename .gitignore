@@ -1,0 +1,26 @@
+# OS / IDE
+.DS_Store
+.vscode/
+.idea/
+
+# Arduino / build outputs
+build/
+*.bin
+*.elf
+
+# Flutter
+.dart_tool/
+.packages
+.pub-cache/
+build/
+
+# Python
+__pycache__/
+*.pyc
+.ipynb_checkpoints/
+
+# Secrets / local config
+.env
+.env.*
+secrets.h
+config.local.*
