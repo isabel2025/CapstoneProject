@@ -1,122 +1,110 @@
 # Solar-Powered IoT Air Quality Monitoring System
 
-A Computer Engineering capstone project by **Isabel Prempeh Herraiz** that combines embedded systems, environmental sensing, data storage, mobile development, and machine learning to monitor air quality and explore AQI prediction.
+**Computer Engineering Capstone — Ashesi University, 2025**  
+**Isabel Prempeh Herraiz**
 
-**Supervisor:** Kofi Adu-Labi  
-**Institution:** Ashesi University  
-**Year:** 2025
+This project is a solar-powered air quality monitoring system built around an ESP32 and a custom PCB. It measures key environmental conditions, sends readings to a database, and displays the data through web and mobile interfaces. I also used a Random Forest model to explore AQI prediction from the sensor readings.
 
-## Project Overview
+## What the system measures
 
-The system was designed as an end-to-end air-quality monitoring prototype. Environmental sensors connected to an ESP32 captured measurements including:
+- PM2.5 and PM10 using an SPS30 particulate-matter sensor
+- eCO2 and TVOC using a CCS811 air-quality sensor
+- Temperature and humidity using an SHT3x sensor
 
-- PM2.5
-- CO₂
-- VOCs
-- Temperature
-- Humidity
+## How it works
 
-The prototype was powered using a solar-based setup, stored readings in a MySQL database, and used a Flutter mobile application to display live and historical data. A Random Forest regression model was also developed to predict Air Quality Index (AQI) values.
+```mermaid
+flowchart LR
+    A[SHT3x] --> D[ESP32-WROOM-32D]
+    B[CCS811] --> D
+    C[SPS30] --> D
+    D --> E[LED + Buzzer Alerts]
+    D --> F[Wi-Fi / HTTP]
+    F --> G[PHP Backend]
+    G --> H[MySQL Database]
+    H --> I[Web Dashboard]
+    H --> J[Flutter App]
+    H --> K[Random Forest AQI Model]
+```
 
-## System Architecture
+The ESP32 reads the sensors and handles local alerts. Sensor data is sent over Wi-Fi to a PHP backend and stored in MySQL. The data can then be viewed through a browser dashboard or mobile interface.
+
+## Hardware design
+
+![Custom PCB schematic](hardware/system-schematic.jpg)
+
+I designed the PCB in Fusion 360 around the ESP32-WROOM-32D. The board includes sensor connections, power regulation, battery charging, USB programming, status LEDs and a buzzer alert circuit.
+
+The project also included a two-layer PCB layout and an outdoor casing for the assembled device.
+
+## Firmware
+
+The firmware in [`firmware/air_quality_monitor.ino`](firmware/air_quality_monitor.ino) covers:
+
+- SHT31 temperature and humidity readings
+- CCS811 eCO2 and TVOC readings
+- SPS30 PM2.5 and PM10 readings
+- air-quality threshold checks
+- green/red status LEDs
+- buzzer alerts
+
+## Backend and dashboard
+
+During development, I built a PHP/MySQL data flow for receiving readings from the ESP32 and displaying them in a browser.
 
 ```text
-Environmental Sensors
-        ↓
-      ESP32
-        ↓
- Data / Backend Layer
-        ↓
-   MySQL Database
-      ↙       ↘
-Flutter App   ML Model
-                  ↓
-             AQI Prediction
+ESP32 → Wi-Fi/HTTP → PHP → MySQL → JSON → Dashboard
 ```
 
-## Machine Learning
+The backend example is in [`backend/prototype/`](backend/prototype/) and the dashboard example is in [`web-dashboard/prototype/`](web-dashboard/prototype/).
 
-The repository currently includes a Jupyter notebook that:
+![Live sensor dashboard](web-dashboard/prototype/live-dashboard-screenshot.png)
 
-1. Loads the AQI dataset.
-2. Separates environmental measurements from the AQI target.
-3. Splits the data into training and test sets.
-4. Trains a `RandomForestRegressor`.
-5. Evaluates the model using Mean Squared Error and R².
-6. Plots predicted AQI values against actual values.
+## Flutter app
 
-### Model inputs
+The repository includes an early Flutter prototype in [`mobile-app/prototype/`](mobile-app/prototype/). It was used while testing the sensor-to-database-to-app flow.
+
+The final capstone interface included live readings, historical views, charts and an AQI prediction screen.
+
+## Machine learning
+
+The notebook in [`machine-learning/`](machine-learning/) trains a Random Forest regressor using:
 
 - PM2.5
-- CO₂
+- CO2
 - VOCs
-- Temperature
-- Humidity
+- temperature
+- humidity
 
-### Target
+The capstone report records an 80/20 train-test split with:
 
-- AQI
+- **MSE:** 35.67
+- **R²:** 0.987
 
-> **Data note:** The CSV currently included in this repository is retained as the dataset used with the notebook. Its provenance should be verified before it is described as field-collected sensor data.
+The training dataset is not included here because I want to verify the exact source version before publishing it.
 
-## Hardware & Software
+## Testing
 
-### Hardware
+The completed system was tested as an outdoor prototype at Ashesi University. The project included:
 
-- ESP32 microcontroller
-- Environmental sensors
-- Custom PCB
-- Solar-powered prototype
+- custom PCB assembly and continuity testing
+- solar and battery power
+- outdoor casing and deployment
+- comparison with an AirQo reference device
+- continuous stability testing
 
-### Software
+## Repository structure
 
-- Python
-- Pandas
-- NumPy
-- Scikit-learn
-- Jupyter Notebook
-- Flutter
-- MySQL
-
-## Current Repository Contents
-
-| File | Purpose |
-| --- | --- |
-| `CapstoneCode.ipynb` | Random Forest model training and evaluation |
-| `aqi_dataset.csv` | Dataset used by the ML notebook |
-| `Demo.mp4` | Project demonstration video |
-| `IsabelPrempehCapstone_KofiAdu-Labi.pdf` | Final capstone report |
-
-The original project also included embedded, backend/database, and Flutter components. Those source files are not currently present in this repository and should be added once recovered.
-
-## How to Run the ML Notebook
-
-1. Clone the repository.
-2. Install the required Python packages:
-
-```bash
-pip install numpy pandas scikit-learn matplotlib seaborn jupyter
+```text
+firmware/                ESP32 firmware
+hardware/                schematic and ESP32 pin mapping
+backend/prototype/       PHP/MySQL development backend
+web-dashboard/prototype/ browser dashboard used during development
+mobile-app/prototype/    early Flutter app prototype
+machine-learning/        Random Forest notebook
+docs/                    capstone report
 ```
 
-3. Open the notebook:
+## Project report
 
-```bash
-jupyter notebook CapstoneCode.ipynb
-```
-
-4. Run the cells in order.
-
-## Why This Project Matters
-
-Air-quality monitoring systems can help make environmental conditions easier to measure and understand. This project explores how low-cost embedded hardware, connected software, and machine learning can be combined into one practical monitoring system.
-
-## Next Improvements
-
-- Restore and document the ESP32 firmware.
-- Add the Flutter application source code.
-- Add backend/database setup files.
-- Add PCB design files and an architecture diagram.
-- Verify and document the origin of the ML dataset.
-- Re-run model evaluation on verified field data if available.
-- Containerize the backend and data services.
-- Deploy a live dashboard or hosted demo.
+The full capstone report is available in [`docs/`](docs/).
