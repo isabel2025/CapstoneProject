@@ -1,6 +1,6 @@
 # Solar-Powered IoT Air Quality Monitoring System
 
-**Computer Engineering Capstone — Ashesi University, 2025**  
+**Computer Engineering Capstone: Ashesi University, 2025**  
 **Isabel Prempeh Herraiz**
 
 This project is a solar-powered air quality monitoring system built around an ESP32 and a custom PCB. It measures key environmental conditions, sends readings to a database, and displays the data through web and mobile interfaces. I also used a Random Forest model to explore AQI prediction from the sensor readings.
