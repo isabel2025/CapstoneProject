@@ -31,8 +31,6 @@ The ESP32 reads the sensors and handles local alerts. Sensor data is sent over W
 
 ## Hardware design
 
-![Custom PCB schematic](hardware/system-schematic.jpg)
-
 I designed the PCB in Fusion 360 around the ESP32-WROOM-32D. The board includes sensor connections, power regulation, battery charging, USB programming, status LEDs and a buzzer alert circuit.
 
 The project also included a two-layer PCB layout and an outdoor casing for the assembled device.
@@ -57,8 +55,6 @@ ESP32 → Wi-Fi/HTTP → PHP → MySQL → JSON → Dashboard
 ```
 
 The backend example is in [`backend/prototype/`](backend/prototype/) and the dashboard example is in [`web-dashboard/prototype/`](web-dashboard/prototype/).
-
-![Live sensor dashboard](web-dashboard/prototype/live-dashboard-screenshot.png)
 
 ## Flutter app
 
@@ -102,9 +98,8 @@ backend/prototype/       PHP/MySQL development backend
 web-dashboard/prototype/ browser dashboard used during development
 mobile-app/prototype/    early Flutter app prototype
 machine-learning/        Random Forest notebook
-docs/                    capstone report
 ```
 
 ## Project report
 
-The full capstone report is available in [`docs/`](docs/).
+The full capstone report is available in [`IsabelPrempehCapstone_KofiAdu-Labi.pdf`](IsabelPrempehCapstone_KofiAdu-Labi.pdf). It includes the PCB schematic, routed board, app screens, testing images and implementation details.
